@@ -58,10 +58,10 @@ if opt.fp16:
     model, [optimizer_G, optimizer_D] = amp.initialize(model, [model.optimizer_G, model.optimizer_D], opt_level='O1')             
     model = torch.nn.DataParallel(model, device_ids=opt.gpu_ids)
 else:
-   if hasattr(model, 'module'):
-    optimizer_G, optimizer_D = model.module.optimizer_G, model.module.optimizer_D
-else:
-    optimizer_G, optimizer_D = model.optimizer_G, model.optimizer_D
+    if hasattr(model, 'module'):
+        optimizer_G, optimizer_D = model.module.optimizer_G, model.module.optimizer_D
+    else:
+        optimizer_G, optimizer_D = model.optimizer_G, model.optimizer_D
 
 
 total_steps = (start_epoch-1) * dataset_size + epoch_iter
